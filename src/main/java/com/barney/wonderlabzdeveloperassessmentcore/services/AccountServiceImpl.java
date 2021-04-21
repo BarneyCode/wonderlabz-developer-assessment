@@ -19,7 +19,6 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
 
     private AccountRepository accountRepository;
-
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
