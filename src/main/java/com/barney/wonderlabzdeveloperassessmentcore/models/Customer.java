@@ -3,6 +3,7 @@ package com.barney.wonderlabzdeveloperassessmentcore.models;
 import com.barney.wonderlabzdeveloperassessmentcore.common.BaseEntity;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -18,7 +19,15 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @ToString
 public class Customer extends BaseEntity  {
-    private String CIF;
+    @Column(nullable = false)
+    private String cif;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
+    @Column(unique = true)
+    private String nationalID;
+    private String mobile;
+    private String email;
+    private String physicalAddress;
 }

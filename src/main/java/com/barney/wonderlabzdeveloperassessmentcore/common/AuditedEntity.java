@@ -1,5 +1,6 @@
 package com.barney.wonderlabzdeveloperassessmentcore.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,18 +29,22 @@ public class AuditedEntity  implements Serializable {
 
     @Column(name = "created", updatable = false)
     @CreationTimestamp
+    @JsonIgnore
     protected LocalDateTime created;
 
     @Column(name = "last_modified")
     @UpdateTimestamp
+    @JsonIgnore
     protected LocalDateTime lastModified;
 
     @Column(name = "created_by")
     @CreatedBy
+    @JsonIgnore
     protected String createdBy;
 
 
     @Column(name = "last_modified_by")
     @LastModifiedBy
+    @JsonIgnore
     protected String modifiedBy;
 }

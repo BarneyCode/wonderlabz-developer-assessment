@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.math.BigDecimal;
 
 /**
  * Project Name: wonderlabz-developer-assessment-core
@@ -21,7 +22,7 @@ import javax.persistence.Enumerated;
 @ToString
 public class Account extends BaseEntity {
     private String accountNumber;
-    private String balance;
+    private BigDecimal balance;
     private String currency;
 
     @Enumerated(EnumType.STRING)
