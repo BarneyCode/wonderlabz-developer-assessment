@@ -59,4 +59,9 @@ public class AccountServiceImpl implements AccountService {
         this.save(currentAccount);
         return accountMap;
     }
+
+    @Override
+    public Optional<Account> findByAccountNumber(String accountNumber) {
+        return this.accountRepository.findByAccountNumber(accountNumber);
+    }
 }

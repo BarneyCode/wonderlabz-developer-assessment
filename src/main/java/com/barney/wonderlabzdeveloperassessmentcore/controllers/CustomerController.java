@@ -2,12 +2,10 @@ package com.barney.wonderlabzdeveloperassessmentcore.controllers;
 
 import com.barney.wonderlabzdeveloperassessmentcore.common.ApiMessage;
 import com.barney.wonderlabzdeveloperassessmentcore.common.ApiResponse;
-import com.barney.wonderlabzdeveloperassessmentcore.models.Customer;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerDTO;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerResponse;
 import com.barney.wonderlabzdeveloperassessmentcore.services.CustomerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CustomerController {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;

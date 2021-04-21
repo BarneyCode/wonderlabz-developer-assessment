@@ -6,6 +6,7 @@ import com.barney.wonderlabzdeveloperassessmentcore.models.AccountType;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerDTO;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Project Name: wonderlabz-developer-assessment-core
@@ -15,4 +16,5 @@ import java.util.Map;
  */
 public interface AccountService extends AppService<Account> {
     Map<AccountType, Account> createAccounts(CustomerDTO customerDTO);
+    Optional<Account> findByAccountNumber(String accountNumber);
 }
