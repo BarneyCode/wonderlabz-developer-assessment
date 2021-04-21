@@ -4,6 +4,8 @@ import com.barney.wonderlabzdeveloperassessmentcore.common.BaseEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 /**
  * Project Name: wonderlabz-developer-assessment-core
@@ -19,5 +21,6 @@ import javax.persistence.Entity;
 @ToString
 public class Transaction extends BaseEntity {
 
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 }
