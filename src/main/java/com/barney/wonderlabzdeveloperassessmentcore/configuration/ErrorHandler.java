@@ -20,7 +20,7 @@ public class ErrorHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> exceptionHandler(Exception e) {
         log.error("Error:", e);
-        ApiResponse<String> response = new ApiResponse<>(500,ApiMessage.FAILED);
+        ApiResponse<String> response = new ApiResponse<>(200,ApiMessage.FAILED);
         response.setBody(e.getMessage());
         return ResponseEntity.ok(response);
     }

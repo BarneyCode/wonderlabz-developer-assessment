@@ -19,7 +19,6 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @ToString
 public class Customer extends BaseEntity  {
-    @Column(nullable = false)
     private String cif;
     @Column(nullable = false)
     private String firstName;

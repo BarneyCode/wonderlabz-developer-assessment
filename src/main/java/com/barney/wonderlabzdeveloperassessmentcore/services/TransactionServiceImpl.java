@@ -10,6 +10,7 @@ import com.barney.wonderlabzdeveloperassessmentcore.models.TransactionType;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionDTO;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,16 +28,19 @@ import java.util.Optional;
 @Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
-    private static final String CASH_ACCOUNT = "1234567890";
-    private final TransactionRepository transactionRepository;
-    private final TransactionDTOConvertor transactionDTOConvertor;
-    private final AccountService accountService;
+    private static final String CASH_ACCOUNT = "123456789";
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private TransactionDTOConvertor transactionDTOConvertor;
+    @Autowired
+    private AccountService accountService;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionDTOConvertor transactionDTOConvertor, AccountService accountService) {
+/*    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionDTOConvertor transactionDTOConvertor, AccountService accountService) {
         this.transactionRepository = transactionRepository;
         this.transactionDTOConvertor = transactionDTOConvertor;
         this.accountService = accountService;
-    }
+    }*/
 
     @Override
     public Optional<Transaction> findById(Long id) {
@@ -74,9 +78,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private TransactionResponse transferFunds(Transaction transaction) {
-        if (checkRules(transaction)){
+        if (checkRules(transaction)) {
             return moveFunds(transaction);
-        }else {
+        } else {
             transaction.setReason("Failed to validate");
             this.save(transaction);
             throw new TransactionException("Validation Failed : " + transaction.getMainAccount());
@@ -86,33 +90,35 @@ public class TransactionServiceImpl implements TransactionService {
     private boolean checkRules(Transaction transaction) {
         Optional<Account> optionalSourceAccount = this.accountService.findByAccountNumber(transaction.getMainAccount());
         Optional<Account> optionalDestinationAccount = this.accountService.findByAccountNumber(transaction.getDestinationAccount());
-        if (optionalSourceAccount.isEmpty()){
+        if (optionalSourceAccount.isEmpty()) {
             transaction.setReason("Invalid Source Account");
             this.save(transaction);
             throw new TransactionException("Source account number provided does not exist : " + transaction.getMainAccount());
-        }else {
-            if (optionalDestinationAccount.isEmpty()){
+        } else {
+            if (optionalDestinationAccount.isEmpty()) {
                 transaction.setReason("Invalid Destination Account");
                 this.save(transaction);
                 throw new TransactionException("Destination account number provided does not exist : " + transaction.getDestinationAccount());
-            }else {
+            } else {
                 Account sourceAccount = optionalSourceAccount.get();
-                if (sourceAccount.getAccountType().equals(AccountType.SAVINGS)){
-                    if ((sourceAccount.getBalance().subtract(transaction.getAmount())).compareTo(BigDecimal.valueOf(1000.00)) < 0){
+                if (sourceAccount.getAccountType().equals(AccountType.SAVINGS)) {
+                    if ((sourceAccount.getBalance().subtract(transaction.getAmount())).compareTo(BigDecimal.valueOf(1000.00)) < 0) {
                         transaction.setReason("Low Balance");
                         this.save(transaction);
                         throw new TransactionException("Source Account cannot have balance below 1000.0: " + transaction.getMainAccount());
-                    }else {
+                    } else {
                         return true;
                     }
-                }else if (sourceAccount.getAccountType().equals(AccountType.CURRENT)){
-                    if ((sourceAccount.getBalance().subtract(transaction.getAmount())).compareTo(BigDecimal.valueOf(-100000.00)) < 0){
+                } else if (sourceAccount.getAccountType().equals(AccountType.CURRENT)) {
+                    if ((sourceAccount.getBalance().subtract(transaction.getAmount())).compareTo(BigDecimal.valueOf(-100000.00)) < 0) {
                         transaction.setReason("Low Balance");
                         this.save(transaction);
                         throw new TransactionException("Source Account cannot have balance below -100000.00: " + transaction.getMainAccount());
-                    }else {
+                    } else {
                         return true;
                     }
+                } else if (sourceAccount.getAccountType().equals(AccountType.CASH_ACCOUNT)) {
+                    return true;
                 } else {
                     transaction.setReason("Invalid Account Typee");
                     this.save(transaction);
@@ -125,9 +131,9 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionResponse makeWithdrawal(Transaction transaction) {
         //move money from customers account to cash Account
         transaction.setDestinationAccount(CASH_ACCOUNT);
-        if (checkRules(transaction)){
+        if (checkRules(transaction)) {
             return moveFunds(transaction);
-        }else {
+        } else {
             transaction.setReason("Failed to validate");
             this.save(transaction);
             throw new TransactionException("Validation Failed : " + transaction.getMainAccount());
@@ -138,16 +144,16 @@ public class TransactionServiceImpl implements TransactionService {
         //move money from cash account to Customers Account
         transaction.setDestinationAccount(transaction.getMainAccount());
         transaction.setMainAccount(CASH_ACCOUNT);
-        if (checkRules(transaction)){
+        if (checkRules(transaction)) {
             return moveFunds(transaction);
-        }else {
+        } else {
             transaction.setReason("Failed to validate");
             this.save(transaction);
             throw new TransactionException("Validation Failed : " + transaction.getMainAccount());
         }
     }
 
-    private TransactionResponse moveFunds(Transaction transaction){
+    private TransactionResponse moveFunds(Transaction transaction) {
         Account sourceAccount = this.accountService.findByAccountNumber(transaction.getMainAccount()).get();
         sourceAccount.setBalance(sourceAccount.getBalance().subtract(transaction.getAmount()));
         this.accountService.save(sourceAccount);
@@ -157,6 +163,6 @@ public class TransactionServiceImpl implements TransactionService {
         this.accountService.save(destinationAccount);
 
         this.save(transaction);
-        return new TransactionResponse(transaction.getId().toString(),transaction.getMainAccount(),transaction.getDestinationAccount(),transaction.getAmount());
+        return new TransactionResponse(transaction.getId().toString(), transaction.getMainAccount(), transaction.getDestinationAccount(), transaction.getAmount());
     }
 }

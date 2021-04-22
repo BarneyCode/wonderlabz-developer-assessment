@@ -65,13 +65,13 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             InitialDeposit initialDepositCustomer = optionalInitialDeposit.get();
             if (initialDepositCustomer.getAmount().compareTo(BigDecimal.valueOf(1000.00))<0){
-                throw new AccountCreationException("Please ensure the initial deposit is greater than 1000.00 for " + customerDTO.getFirstName());
+                throw new AccountCreationException("Please ensure the initial deposit to SAVINGS account is greater than 1000.00 for " + customerDTO.getFirstName());
             }else {
                 Customer customer = this.customerDTOConvertor.convert(customerDTO);
                 //set customer CIF it should be auto generated
                 //add logic to get unique CustomerID
                 Customer savedCustomer = this.save(customer);
-                customerDTO.setCif(savedCustomer.getCif());
+                customerDTO.setCif(savedCustomer.getId().toString());
                 //create customer accounts
                 Map<AccountType, Account> accounts = this.accountService.createAccounts(customerDTO);
                 return new CustomerResponse(savedCustomer,accounts);

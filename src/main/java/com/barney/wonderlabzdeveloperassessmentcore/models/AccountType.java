@@ -7,5 +7,5 @@ package com.barney.wonderlabzdeveloperassessmentcore.models;
  * Time        : 22:26
  */
 public enum AccountType {
-    CURRENT,SAVINGS
+    CURRENT,SAVINGS,CASH_ACCOUNT
 }

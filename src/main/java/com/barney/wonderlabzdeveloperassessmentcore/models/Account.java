@@ -23,7 +23,6 @@ import java.math.BigDecimal;
 public class Account extends BaseEntity {
     private String accountNumber;
     private BigDecimal balance;
-    private String currency;
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;

@@ -28,9 +28,8 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResponse<TransactionResponse> makeTransaction(@RequestBody TransactionDTO transactionDTO) {
-
         log.info("new transaction " + transactionDTO + " of type " + transactionDTO.getTransactionType());
         TransactionResponse transact = this.transactionService.transact(transactionDTO);
         return new ApiResponse<>(200, ApiMessage.SUCCESS, transact);
