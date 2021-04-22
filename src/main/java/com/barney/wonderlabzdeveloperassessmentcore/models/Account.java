@@ -3,6 +3,7 @@ package com.barney.wonderlabzdeveloperassessmentcore.models;
 import com.barney.wonderlabzdeveloperassessmentcore.common.BaseEntity;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,6 +22,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString
 public class Account extends BaseEntity {
+    @Column(unique = true, nullable = false)
     private String accountNumber;
     private BigDecimal balance;
 

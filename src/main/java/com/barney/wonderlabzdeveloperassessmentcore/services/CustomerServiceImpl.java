@@ -10,6 +10,7 @@ import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerDTO;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerResponse;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.InitialDeposit;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,15 +32,13 @@ import java.util.stream.Stream;
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerDTOConvertor customerDTOConvertor;
-    private final CustomerRepository customerRepository;
-    private final AccountService accountService;
+    @Autowired
+    private CustomerDTOConvertor customerDTOConvertor;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private AccountService accountService;
 
-    public CustomerServiceImpl(CustomerDTOConvertor customerDTOConvertor, CustomerRepository customerRepository, AccountService accountService) {
-        this.customerDTOConvertor = customerDTOConvertor;
-        this.customerRepository = customerRepository;
-        this.accountService = accountService;
-    }
 
     @Override
     public Optional<Customer> findById(Long id) {
@@ -71,9 +70,12 @@ public class CustomerServiceImpl implements CustomerService {
                 //set customer CIF it should be auto generated
                 //add logic to get unique CustomerID
                 Customer savedCustomer = this.save(customer);
-                customerDTO.setCif(savedCustomer.getId().toString());
+                customerDTO.setCif(savedCustomer.getId().toString()+"0000");
                 //create customer accounts
                 Map<AccountType, Account> accounts = this.accountService.createAccounts(customerDTO);
+                //update customer CIF
+                savedCustomer.setCif(customerDTO.getCif());
+                this.save(savedCustomer);
                 return new CustomerResponse(savedCustomer,accounts);
             }
         }

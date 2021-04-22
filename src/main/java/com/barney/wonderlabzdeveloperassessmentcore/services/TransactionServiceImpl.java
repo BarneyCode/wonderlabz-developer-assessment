@@ -36,11 +36,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private AccountService accountService;
 
-/*    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionDTOConvertor transactionDTOConvertor, AccountService accountService) {
-        this.transactionRepository = transactionRepository;
-        this.transactionDTOConvertor = transactionDTOConvertor;
-        this.accountService = accountService;
-    }*/
 
     @Override
     public Optional<Transaction> findById(Long id) {

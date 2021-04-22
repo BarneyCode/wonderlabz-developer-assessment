@@ -1,6 +1,5 @@
 package com.barney.wonderlabzdeveloperassessmentcore.convertors;
 
-import com.barney.wonderlabzdeveloperassessmentcore.models.Customer;
 import com.barney.wonderlabzdeveloperassessmentcore.models.Transaction;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionDTO;
 import org.modelmapper.ModelMapper;

@@ -2,14 +2,14 @@ package com.barney.wonderlabzdeveloperassessmentcore.controllers;
 
 import com.barney.wonderlabzdeveloperassessmentcore.common.ApiMessage;
 import com.barney.wonderlabzdeveloperassessmentcore.common.ApiResponse;
+import com.barney.wonderlabzdeveloperassessmentcore.models.Transaction;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionDTO;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionResponse;
 import com.barney.wonderlabzdeveloperassessmentcore.services.TransactionService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Project Name: wonderlabz-developer-assessment-core
@@ -33,7 +33,10 @@ public class TransactionController {
         log.info("new transaction " + transactionDTO + " of type " + transactionDTO.getTransactionType());
         TransactionResponse transact = this.transactionService.transact(transactionDTO);
         return new ApiResponse<>(200, ApiMessage.SUCCESS, transact);
+    }
 
-
+    @GetMapping("/history")
+    public ApiResponse<List<Transaction>> transactionsHistory() {
+        return new ApiResponse<>(200, ApiMessage.SUCCESS, this.transactionService.findAll());
     }
 }

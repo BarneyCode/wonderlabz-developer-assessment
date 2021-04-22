@@ -29,10 +29,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private TransactionService transactionService;
 
-/*    public AccountServiceImpl(AccountRepository accountRepository, TransactionService transactionService) {
-        this.accountRepository = accountRepository;
-        this.transactionService = transactionService;
-    }*/
 
     @Override
     public Optional<Account> findById(Long id) {
@@ -53,23 +49,26 @@ public class AccountServiceImpl implements AccountService {
     public Map<AccountType, Account> createAccounts(CustomerDTO customerDTO) {
         Map<AccountType, Account> accountMap = new HashMap<>();
         Set<InitialDeposit> initialDeposit = customerDTO.getInitialDeposit();
-        InitialDeposit savingsInitialDeposit = initialDeposit.stream().filter(e -> e.getAccountType().equals(AccountType.SAVINGS)).findFirst().get();
-        String savingsAccountNumber = customerDTO.getCif() + "000000";
+        InitialDeposit savingsInitialDeposit = initialDeposit
+                .stream().filter(e -> e.getAccountType().equals(AccountType.SAVINGS)).findFirst().get();
+        String savingsAccountNumber = customerDTO.getCif() + "0000";
         Account savingsAccount = new Account(savingsAccountNumber,savingsInitialDeposit.getAmount(),AccountType.SAVINGS);
         savingsAccount.setBalance(BigDecimal.ZERO);
         accountMap.put(AccountType.SAVINGS,savingsAccount);
         this.save(savingsAccount);
-        this.transactionService.transact(new TransactionDTO(savingsInitialDeposit.getAmount(),savingsAccountNumber,"","initial deposit", TransactionType.DEPOSIT));//save initial deposit to transaction history
+        //save initial deposit to transaction history
         //save savings account here
+        this.transactionService.transact(new TransactionDTO(savingsInitialDeposit.getAmount(),savingsAccountNumber,"","initial deposit", TransactionType.DEPOSIT));
 
-        String currentAccountNumber = customerDTO.getCif() + "111111";
-        InitialDeposit currentInitialDeposit = initialDeposit.stream().filter(e -> e.getAccountType().equals(AccountType.CURRENT)).findFirst().get();
+        String currentAccountNumber = customerDTO.getCif() + "1111";
+        InitialDeposit currentInitialDeposit = initialDeposit
+                .stream().filter(e -> e.getAccountType().equals(AccountType.CURRENT)).findFirst().get();
         Account currentAccount = new Account(currentAccountNumber,currentInitialDeposit.getAmount(),AccountType.CURRENT);
         accountMap.put(AccountType.CURRENT,currentAccount);
         currentAccount.setBalance(BigDecimal.ZERO);
         this.save(currentAccount);
-        this.transactionService.transact(new TransactionDTO(currentInitialDeposit.getAmount(),currentAccountNumber,"","initial deposit", TransactionType.DEPOSIT));//save initial deposit to transaction history
-
+        //save initial deposit to transaction history
+        this.transactionService.transact(new TransactionDTO(currentInitialDeposit.getAmount(),currentAccountNumber,"","initial deposit", TransactionType.DEPOSIT));
         return accountMap;
     }
 
