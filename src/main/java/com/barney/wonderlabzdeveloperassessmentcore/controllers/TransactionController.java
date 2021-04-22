@@ -6,6 +6,7 @@ import com.barney.wonderlabzdeveloperassessmentcore.models.Transaction;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionDTO;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.TransactionResponse;
 import com.barney.wonderlabzdeveloperassessmentcore.services.TransactionService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class TransactionController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Transaction Endpoint. Withdrawal, Deposit and FundsTransfer",response = ApiResponse.class)
     public ApiResponse<TransactionResponse> makeTransaction(@RequestBody TransactionDTO transactionDTO) {
         log.info("new transaction " + transactionDTO + " of type " + transactionDTO.getTransactionType());
         TransactionResponse transact = this.transactionService.transact(transactionDTO);
@@ -36,6 +38,7 @@ public class TransactionController {
     }
 
     @GetMapping("/history")
+    @ApiOperation(value = "Transaction History Endpoint",response = ApiResponse.class)
     public ApiResponse<List<Transaction>> transactionsHistory() {
         return new ApiResponse<>(200, ApiMessage.SUCCESS, this.transactionService.findAll());
     }

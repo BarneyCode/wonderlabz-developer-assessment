@@ -71,6 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
                 //add logic to get unique CustomerID
                 Customer savedCustomer = this.save(customer);
                 customerDTO.setCif(savedCustomer.getId().toString()+"0000");
+                log.info("assigning new CIF = >" + customerDTO .getCif() );
                 //create customer accounts
                 Map<AccountType, Account> accounts = this.accountService.createAccounts(customerDTO);
                 //update customer CIF

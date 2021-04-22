@@ -69,6 +69,7 @@ public class AccountServiceImpl implements AccountService {
         this.save(currentAccount);
         //save initial deposit to transaction history
         this.transactionService.transact(new TransactionDTO(currentInitialDeposit.getAmount(),currentAccountNumber,"","initial deposit", TransactionType.DEPOSIT));
+        log.info("accounts created " + accountMap);
         return accountMap;
     }
 
