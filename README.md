@@ -14,11 +14,13 @@ b.	Current is not required. Pass 0.0 as initial deposit if there is no initial d
 # Testing the API with Postman
 There is a publicly accessible Collection which implements all methods below. 
 https://www.getpostman.com/collections/57e1beb4a64eca44df24 
-#Methods include:
+
+Methods include:
 1.	Create Customer (also creates customer savings and current account)
 2.	Cash Withdrawal
 3.	Cash Deposit
 4.	Funds Transfer
+
 Alternatively, you can use the Swagger UI documentation as a guide.
 http://localhost:9403/developer-test/swagger-ui.html
 *NB replace IP address with appropriate IP address deployed.
