@@ -23,7 +23,7 @@ Alternatively, you can use the Swagger UI documentation as a guide.
 http://localhost:9403/developer-test/swagger-ui.html
 *NB replace IP address with appropriate IP address deployed.
 
-#Improvements
+# Improvements
 1.	Create a Configuration Entity to save all the configuration i.e., CASH DEPOSIT ACCOUNT, Minimum balance for CURRENT and SAVINGS account etc.
 2.	Add method that can show current account balance before customer transacts so that when wired with the frontend customer cannot withdraw amount less than one specified by rules
 3.	Add more unit tests to the code.
