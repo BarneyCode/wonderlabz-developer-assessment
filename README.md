@@ -3,13 +3,14 @@
 # Assumptions
 1.	We should have a CASH account to have the corresponding cash deposits or cash withdrawals in the system.
 2.	The System is a full backed service accessed via REST endpoints.
-3.	CIF is customer identification Number and should be unique for each customer and is the first 5 digits of a customer account.  (NB logic to autoincrement not implement)
-a.	Savings account (has trailing 0000)
-b.	Current account (has trailing 1111)
+3.	CIF is customer identification Number and should be unique for each customer and is the first 5 digits of a customer account.  (NB logic to autoincrement not yet implemented)
+    a.	Savings account (has trailing 0000)
+    b.	Current account (has trailing 1111)
 4.	The data.sql has been added to the resources path to add cash account foe development purposes.
 5.	When creating a customer each account must be initialized with an initial balance
-a.	Savings account initial must be 1000.00.
-b.	Current is not required. Pass 0.0 as initial deposit if there is no initial deposit.
+    
+    a.	Savings account initial must be 1000.00.
+    b.	Current is not required. Pass 0.0 as initial deposit if there is no initial deposit.
 
 # Testing the API with Postman
 There is a publicly accessible Collection which implements all methods below. 
