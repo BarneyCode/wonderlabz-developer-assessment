@@ -5,6 +5,7 @@ import com.barney.wonderlabzdeveloperassessmentcore.common.ApiResponse;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerDTO;
 import com.barney.wonderlabzdeveloperassessmentcore.models.dto.CustomerResponse;
 import com.barney.wonderlabzdeveloperassessmentcore.services.CustomerService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ public class CustomerController {
     }
 
     @PostMapping("/createCustomer")
+    @ApiOperation(value = "Customer Account Opening Endpoint",response = ApiResponse.class)
     public ApiResponse<CustomerResponse> openCustomerAccount(@RequestBody CustomerDTO customerDTO){
         log.info("Creating a new customer " + customerDTO);
         CustomerResponse customerResponse = this.customerService.createCustomer(customerDTO);
