@@ -10,6 +10,7 @@ import com.barney.wonderlabzdeveloperassessmentcore.services.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -48,7 +49,8 @@ class CustomerControllerTest {
     }
 
     @Test
-    void openCustomerAccount_Test() throws Exception {
+    @DisplayName("transaction test")
+    void openCustomerAccount() throws Exception {
         final var url = "/api/v1/customer/createCustomer";
         final var apiResponse = new ApiResponse<CustomerResponse>(200, ApiMessage.SUCCESS);
         given(customerService.createCustomer(any(CustomerDTO.class))).willReturn(apiResponse.getBody());

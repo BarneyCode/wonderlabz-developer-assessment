@@ -69,6 +69,7 @@ class TransactionControllerTest {
     }
 
     @Test
+    @DisplayName("transaction history test")
     void transactionsHistory() throws Exception {
         final var url = "/api/v1/transact/history";
         final var apiResponse = new ApiResponse<List<Transaction>>(200, ApiMessage.SUCCESS);
